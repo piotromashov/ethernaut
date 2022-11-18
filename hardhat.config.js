@@ -1,6 +1,6 @@
 require("@nomiclabs/hardhat-waffle");
 
-const { url, private_key } = require('./secrets.json');
+const { api_key, private_key } = require('./secrets.json');
 
 // Go to https://www.alchemyapi.io, sign up, create
 // a new App in its dashboard, and replace "KEY" with its key
@@ -24,7 +24,7 @@ module.exports = {
   },
   networks: {
     goerli: {
-      url: url,
+      url: `https://eth-goerli.alchemyapi.io/v2/${api_key}`,
       accounts: [private_key]
     }    
   }
