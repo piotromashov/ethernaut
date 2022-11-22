@@ -26,6 +26,9 @@ module.exports = {
     goerli: {
       url: `https://eth-goerli.alchemyapi.io/v2/${api_key}`,
       accounts: [private_key]
-    }    
+    }
+  },
+  mocha: {
+    timeout: 400000
   }
 }
