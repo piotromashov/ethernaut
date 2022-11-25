@@ -14,6 +14,9 @@ module.exports = {
   solidity: {
     compilers: [{ version: "0.8.1" }],
     overrides: {
+      "contracts/token/Token.sol": {
+        version: "0.6.0",
+      },
       "contracts/delegation/DelegateHack.sol": {
         version: "0.6.0",
       },
