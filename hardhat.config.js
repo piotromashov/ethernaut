@@ -29,6 +29,9 @@ module.exports = {
     goerli: {
       url: `https://eth-goerli.alchemyapi.io/v2/${api_key}`,
       accounts: [private_key]
+    },
+    localhost: {
+      url: "http://127.0.0.1:8545"
     }
   },
   mocha: {
