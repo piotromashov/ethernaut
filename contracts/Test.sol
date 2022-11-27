@@ -8,7 +8,8 @@ contract Test {
         console.log("Test: constructor() called");
     }
 
-	function test(address a) public view {
+	function test(address a) public view returns (address) {
         console.log("Test: test() called, with parameter ", a);
+        return a;
     }
 }
