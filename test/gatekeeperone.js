@@ -10,7 +10,7 @@ describe("GatekeeperOneHack", function () {
         // const GatekeeperOne = await ethers.getContractFactory("GatekeeperOne");
         // this.gatekeeperOne = await GatekeeperOne.deploy();
         // target_address = this.gatekeeperOne.address;
-        target_address = "0x717B281f588A7a377F1cc876eFBeEB951Ab99986";
+        target_address = "0xBDC5Fe519C8926301b980269D50da6FD72B649B3";
         console.log("GatekeeperOne deployed to: "+target_address);
         this.gatekeeperOne = await ethers.getContractAt("GatekeeperOne", target_address);
 
