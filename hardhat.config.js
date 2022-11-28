@@ -12,7 +12,7 @@ const { api_key, private_key } = require('./secrets.json');
 
 module.exports = {
   solidity: {
-    compilers: [{ version: "0.8.12" }],
+    compilers: [{ version: "0.8.0" }, { version: "0.8.12" }],
     overrides: {
       "contracts/token/Token.sol": {
         version: "0.6.0",
