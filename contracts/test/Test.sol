@@ -9,7 +9,8 @@ contract Test {
     uint public codeSize;
 
 	constructor() {
-        console.log("Test#constructor: called");
+        console.log("Test#testCodeSizeByConstructor: called");
+        testCodeSizeByContract();
     }
 
 	function test(address a) public view returns (address) {
