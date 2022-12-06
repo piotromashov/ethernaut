@@ -52,6 +52,20 @@ describe("Testing", function () {
 		codeSize = await testContract.codeSize();
 		expect(codeSize.toNumber()).to.equal(0);
 	});
+
+	it("Test delegatecall on contract modifies storage on original contract", async function() {
+		console.log("Executing delegatecall on contract");
+		address = await testContract.caller();
+		console.log("Original value: ", address);
+		let newValue = 10;
+		expect(address).to.not.equal(newValue);
+		let internalCallerTx = await testContract.testDelegatecallStorage(newValue);
+		await internalCallerTx.wait();
+
+		address = await testContract.caller();
+		console.log("New value: ", address);
+		expect(parseInt(address)).to.equal(newValue);
+	});
 	
 	afterEach(async function() {
 		// COMPLETAR

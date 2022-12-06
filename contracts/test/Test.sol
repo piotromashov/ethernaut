@@ -8,6 +8,8 @@ contract Test {
     address public caller;
     uint public codeSize;
 
+    bytes4 constant testDelegatecallStorageSignature = bytes4(keccak256("testDelegatecallStorage(uint256)"));
+
 	constructor() {
         console.log("Test#testCodeSizeByConstructor: called");
         testCodeSizeByContract();
@@ -43,5 +45,14 @@ contract Test {
         codeSize = x;
         console.log("Test#testCodeSizeByEOA: result", codeSize);
         return codeSize;
+    }
+
+    function testDelegatecallStorage(uint _value) public returns(bytes memory) {
+        console.log("Test#testDelegatecallStorage: called");
+        TestInternalCaller testInternalCaller = new TestInternalCaller();
+        console.log("Test#testDelegatecallStorage: calling TestInternalCaller#testDelegatecallStorage");
+        (bool success, bytes memory data) = address(testInternalCaller).delegatecall(abi.encodePacked(testDelegatecallStorageSignature, _value));
+        console.log("Test#testDelegatecallStorage: result", success);
+        return data;
     }
 }

@@ -4,6 +4,8 @@ import "hardhat/console.sol";
 
 contract TestInternalCaller {
 
+    uint saraza;
+
 	constructor() {
         console.log("TestInternalCaller#constructor: called");
     }
@@ -22,5 +24,11 @@ contract TestInternalCaller {
 		assembly { x := extcodesize(caller()) }
         console.log("TestInternalCaller#testExtCodeSize: result", x);
         return x;
+    }
+
+    function testDelegatecallStorage(uint _value) public returns(uint) {
+        console.log("TestInternalCaller#testDelegatecallStorage: called");
+        saraza = _value;
+        return saraza;
     }
 }
