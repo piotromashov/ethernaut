@@ -7,7 +7,7 @@ describe("Dex", function () {
 	let dex_address = false;
 
 	beforeEach(async function () {
-		// dex_address = "0x6457A42cbD3CcF8D3809B5eE15f6eBC9622f56eB";
+		dex_address = "0xe866574661467F4C2F361237A62a2a57b2b87C88";
 		[first_account, another_account] = await ethers.getSigners();
 		if (dex_address) {
 			contract = await ethers.getContractAt("Dex", dex_address);
